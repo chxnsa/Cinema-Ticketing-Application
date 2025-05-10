@@ -30,7 +30,13 @@ public class Reservation {
      * Print information about this reservation
      */
     public void printInfo() {
-        // TODO: Implement printing reservation information
+        System.out.println("===== Reservation Info =====");
+        System.out.println("Customer Name: " + customer.getName());
+        System.out.println("Movie Title: " + schedule.getMovie().getTitle());
+        System.out.println("Showtime: " + schedule.getTime());
+        System.out.println("Seat Number: " + seatNumber);
+        System.out.println("Total Price: $" + totalPrice);
+        System.out.println("============================");
     }
     
     // Getters and Setters
@@ -52,5 +58,5 @@ public class Reservation {
     
     public void setTotalPrice(double totalPrice) {
         this.totalPrice = totalPrice;
-    }
+    }
 }
