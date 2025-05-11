@@ -1,7 +1,7 @@
 package user;
 
 /**
- * Abstract class representing a User in the Cinema Ticketing System
+ * Kelas abstrak yang merepresentasikan User dalam Sistem Pemesanan Tiket Bioskop
  */
 public abstract class User {
     // Fields
@@ -9,9 +9,9 @@ public abstract class User {
     protected String password;
     
     /**
-     * Constructor for User
-     * @param username the username
-     * @param password the password
+     * Konstruktor untuk User
+     * @param username nama pengguna
+     * @param password kata sandi
      */
     public User(String username, String password) {
         this.username = username;
@@ -19,22 +19,25 @@ public abstract class User {
     }
     
     /**
-     * Login method to authenticate user
-     * @param inputUser input username
-     * @param inputPass input password
-     * @return true if login successful, false otherwise
+     * Metode login untuk mengautentikasi pengguna
+     * @param inputUser nama pengguna yang dimasukkan
+     * @param inputPass kata sandi yang dimasukkan
+     * @return true jika login berhasil, false jika gagal
      */
     public boolean login(String inputUser, String inputPass) {
-        // TODO: Implement login logic
-        return false;
-    }
+        // Cek apakah nama pengguna dan kata sandi yang dimasukkan cocok dengan yang ada
+        if (this.username.equals(inputUser) && this.password.equals(inputPass)) {
+            return true; // Login berhasil jika nama pengguna dan kata sandi cocok
+        }
+        return false;// Login gagal jika tidak cocok
+    }    
     
     /**
-     * Method to print user information
+     * Metode untuk mencetak informasi pengguna
      */
     public abstract void printInfo();
     
-    // Getters and Setters
+    // Getter dan Setter
     public String getUsername() {
         return username;
     }
@@ -43,7 +46,7 @@ public abstract class User {
         this.username = username;
     }
     
-    // We don't provide a getter for password for security reasons
+    // Kami tidak menyediakan getter untuk password demi alasan keamanan
     public void setPassword(String password) {
         this.password = password;
     }
