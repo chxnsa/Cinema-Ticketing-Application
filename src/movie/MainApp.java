@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.io.*;
 
+/**
+ * Main application class for the Cinema Ticketing System
+ */
 public class MainApp {
     private static final Scanner scanner = new Scanner(System.in);
     private static final List<User> users = new ArrayList<>();
@@ -17,12 +20,16 @@ public class MainApp {
     private static User currentUser;
 
     public static void main(String[] args) {
+        // Seed default admin
         users.add(new Admin("admin", "admin"));
 
+        // Load data from files
         loadData();
 
+        // Show welcome message and main menu
         showWelcomeScreen();
 
+        // Save data before exit
         saveData();
         scanner.close();
     }
@@ -34,7 +41,6 @@ public class MainApp {
             System.out.println("2. Login");
             System.out.println("3. Keluar");
             System.out.print("Pilih (1-3): ");
-           
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -76,7 +82,6 @@ public class MainApp {
             System.out.println("3. Lihat Riwayat Reservasi");
             System.out.println("4. Logout");
             System.out.print("Pilih (1-4): ");
-           
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -108,7 +113,6 @@ public class MainApp {
             System.out.println("3. Lihat Semua Reservasi");
             System.out.println("4. Logout");
             System.out.print("Pilih (1-4): ");
-           
             String choice = scanner.nextLine().trim();
 
             switch (choice) {
@@ -135,10 +139,8 @@ public class MainApp {
     private static void registerUser() {
         System.out.println("\n--- REGISTRASI PELANGGAN BARU ---");
         System.out.print("Username: ");
-        
         String user = scanner.nextLine().trim();
         System.out.print("Password: ");
-        
         String pass = scanner.nextLine().trim();
 
         if (user.isEmpty() || pass.isEmpty()) {
@@ -160,10 +162,8 @@ public class MainApp {
     private static void loginUser() {
         System.out.println("\n--- LOGIN PELANGGAN/ADMIN ---");
         System.out.print("Username: ");
-        
         String user = scanner.nextLine().trim();
         System.out.print("Password: ");
-        
         String pass = scanner.nextLine().trim();
 
         for (User u : users) {
@@ -180,16 +180,12 @@ public class MainApp {
     private static void addMovieFlow(Admin admin) {
         try {
             System.out.print("Judul Film: ");
-        
             String title = scanner.nextLine().trim();
             System.out.print("Genre Film: ");
-        
             String genre = scanner.nextLine().trim();
             System.out.print("Durasi (menit): ");
-        
             int duration = Integer.parseInt(scanner.nextLine().trim());
             Movie movie = new Movie(title, genre, duration);
-        
             movies.add(movie);
             admin.addMovie(movie);
             System.out.println("Film berhasil ditambahkan.");
@@ -211,16 +207,12 @@ public class MainApp {
             int idx = Integer.parseInt(scanner.nextLine().trim()) - 1;
             Movie selMovie = movies.get(idx);
             System.out.print("Tanggal & Waktu (yyyy-MM-dd HH:mm): ");
-        
             String dt = scanner.nextLine().trim();
             System.out.print("Jumlah Kursi Tersedia: ");
-        
             int seats = Integer.parseInt(scanner.nextLine().trim());
             System.out.print("Harga per Tiket: ");
-        
             double price = Double.parseDouble(scanner.nextLine().trim());
             Schedule schedule = new Schedule(selMovie, dt, seats, price);
-        
             selMovie.addSchedule(schedule);
             admin.updateSchedule(selMovie, schedule);
             System.out.println("Jadwal berhasil ditambahkan.");
@@ -240,10 +232,16 @@ public class MainApp {
         }
     }
 
+    /**
+     * Load data from files
+     */
     private static void loadData() {
         // TODO: Implementasi muat data oleh Anggota 5
     }
 
+    /**
+     * Save data to files
+     */
     private static void saveData() {
         // TODO: Implementasi simpan data oleh Anggota 5
     }
