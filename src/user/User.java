@@ -1,4 +1,9 @@
+
 package user;
+
+import java.util.List;
+
+import movie.Movie;
 
 public abstract class User {
     protected String username;
@@ -32,4 +37,22 @@ public abstract class User {
         return password;
     }
 
+    public void viewMovies(List<Movie> movies) {
+        if (movies.isEmpty()) {
+            System.out.println("Belum ada film yang tersedia.");
+            return;
+        }
+
+        System.out.println("\n===== DAFTAR FILM DAN JADWAL =====");
+        for (int i = 0; i < movies.size(); i++) {
+            Movie movie = movies.get(i);
+            System.out.println((i + 1) + ". ");
+            movie.displayDetails();
+
+            System.out.println();
+        }
+    }
+
 }
+
+

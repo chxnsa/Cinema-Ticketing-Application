@@ -40,8 +40,19 @@ public class Customer extends User {
 
     public void bookTickets(Movie movie, Schedule schedule, List<Integer> seatNumbers) {
         List<Reservation> newReservations = new ArrayList<>();
+       
+        if (!schedule.isAvailable()) {
+            System.out.println("Maaf, kursi sudah penuh untuk jadwal ini.");
+            return;
+        }
         
         for (int seatNumber : seatNumbers) {
+ 
+            if (seatNumber <= 0 || seatNumber > (schedule.getAvailableSeats() + schedule.getBookedSeats())) {
+                System.out.println("Nomor kursi " + seatNumber + " tidak valid.");
+                continue;
+            }
+            
             if (!schedule.isSeatAvailable(seatNumber)) {
                 System.out.println("Maaf, kursi " + seatNumber + " sudah terpesan.");
                 continue;
@@ -62,6 +73,7 @@ public class Customer extends User {
             System.out.println("Tidak ada tiket yang berhasil dipesan.");
         }
     }
+    
 
     public void viewReservations() {
         if (reservations.isEmpty()) {
@@ -84,5 +96,4 @@ public class Customer extends User {
         System.out.println("Role: Customer");
         System.out.println("Jumlah Reservasi: " + reservations.size());
     }
-
 }
