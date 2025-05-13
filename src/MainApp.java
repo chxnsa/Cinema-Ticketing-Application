@@ -1,7 +1,8 @@
 import java.util.Scanner;
-import users.User;
-import users.Customer;
-import users.Admin;
+
+import user.User;
+import user.Customer;
+import user.Admin;
 import movie.Movie;
 import movie.Schedule;
 import reservation.Reservation;
@@ -32,21 +33,27 @@ public class MainApp {
             System.out.print("Pilih (1-3): ");
 
             String choice = scanner.nextLine().trim();
+
             if (choice.isEmpty()) {
                 System.out.println("Input tidak boleh kosong.");
                 continue;
             }
 
+
             switch (choice) {
                 case "1":
                     registerUser();
+
+
                     break;
                 case "2":
                     loginUser();
-                    if (currentUser != null)
+                    if (currentUser != null) {
                         showMainMenu();
-                    else
+                    } else {
                         System.out.println("Login gagal. Silakan coba lagi.");
+                    }
+
                     break;
                 case "3":
                     System.out.println("Terima kasih telah menggunakan sistem. Sampai jumpa!");
@@ -58,10 +65,13 @@ public class MainApp {
     }
 
     private static void showMainMenu() {
-        if (currentUser instanceof Admin)
+
+        if (currentUser instanceof Admin) {
             showAdminMenu();
-        else
+        } else {
             showCustomerMenu();
+        }
+
     }
 
     private static void showCustomerMenu() {
@@ -75,10 +85,12 @@ public class MainApp {
             System.out.print("Pilih (1-4): ");
 
             String choice = scanner.nextLine().trim();
+
             if (choice.isEmpty()) {
                 System.out.println("Input tidak boleh kosong.");
                 continue;
             }
+
 
             switch (choice) {
                 case "1":
@@ -105,41 +117,27 @@ public class MainApp {
             System.out.println("\n--- MENU ADMIN ---");
             System.out.println("1. Tambah Film");
             System.out.println("2. Tambah Jadwal Film");
-            System.out.println("3. Lihat Semua Reservasi");
-            System.out.println("4. Logout");
-            System.out.print("Pilih (1-4): ");
+            System.out.println("3. Lihat Film & Jadwal");
+            System.out.println("4. Lihat Semua Reservasi");
+            System.out.println("5. Logout");
+            System.out.print("Pilih (1-5): ");
 
             String choice = scanner.nextLine().trim();
-            if (choice.isEmpty()) {
-                System.out.println("Input tidak boleh kosong.");
-                continue;
-            }
 
             switch (choice) {
                 case "1":
-                    while (true) {
-                        try {
-                            addMovieFlow(admin);
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Terjadi kesalahan. Silakan input ulang.");
-                        }
-                    }
+                    addMovieFlow(admin);
                     break;
                 case "2":
-                    while (true) {
-                        try {
-                            addScheduleFlow(admin);
-                            break;
-                        } catch (Exception e) {
-                            System.out.println("Terjadi kesalahan. Silakan input ulang.");
-                        }
-                    }
+                    addScheduleFlow(admin);
                     break;
                 case "3":
-                    admin.viewAllReservations(reservations);
+                    admin.viewMovies(movies);
                     break;
                 case "4":
+                    admin.viewAllReservations(reservations);
+                    break;
+                case "5":
                     currentUser = null;
                     return;
                 default:
@@ -150,6 +148,7 @@ public class MainApp {
 
     private static void registerUser() {
         System.out.println("\n--- REGISTRASI PELANGGAN BARU ---");
+
         String user, pass;
         while (true) {
             System.out.print("Username: ");
@@ -195,10 +194,12 @@ public class MainApp {
         }
         users.add(new Customer(user, pass));
         System.out.println("Registrasi berhasil. Silahkan login.");
+
     }
 
     private static void loginUser() {
         System.out.println("\n--- LOGIN PELANGGAN/ADMIN ---");
+
         String user, pass;
         while (true) {
             System.out.print("Username: ");
@@ -214,6 +215,7 @@ public class MainApp {
                 break;
             System.out.println("Password tidak boleh kosong.");
         }
+
         for (User u : users) {
             if (u.login(user, pass)) {
                 currentUser = u;
@@ -226,6 +228,7 @@ public class MainApp {
     }
 
     private static void addMovieFlow(Admin admin) {
+
         String title, genre, description, director;
         int duration;
         while (true) {
@@ -272,6 +275,7 @@ public class MainApp {
         Movie movie = new Movie(title, genre, duration, description, director);
         admin.addMovie(movie, movies);
         System.out.println("Film berhasil ditambahkan.");
+
     }
 
     private static void addScheduleFlow(Admin admin) {
@@ -283,6 +287,7 @@ public class MainApp {
         for (int i = 0; i < movies.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, movies.get(i).getTitle());
         }
+
         int idx;
         while (true) {
             System.out.print("Pilih nomor film: ");
@@ -355,6 +360,7 @@ public class MainApp {
         selMovie.addSchedule(schedule);
         admin.updateSchedule(selMovie, schedule);
         System.out.println("Jadwal berhasil ditambahkan.");
+
     }
 
     private static void TicketReservation(Customer cust) {
@@ -362,6 +368,7 @@ public class MainApp {
             System.out.println("Tidak ada film yang tersedia saat ini.");
             return;
         }
+
         System.out.println("\n===== PESAN TIKET =====");
         cust.viewMovies(movies);
 
