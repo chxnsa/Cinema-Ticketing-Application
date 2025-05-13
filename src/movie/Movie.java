@@ -29,7 +29,10 @@ public class Movie {
     }
 
     public void displayDetails() {
-        System.out.println("===== DETAIL FILM =====");
+
+        System.out.println("================== " + title.toUpperCase() + " =================");
+
+   
         System.out.println("Judul: " + title);
         System.out.println("Genre: " + genre);
         System.out.println("Durasi: " + duration + " menit");
@@ -44,6 +47,10 @@ public class Movie {
                 System.out.println((i + 1) + ". " + schedules.get(i));
             }
         }
+
+        System.out.println("===========================================================");
+        System.out.println("");
+
     }
 
     public boolean removeSchedule(int index) {
@@ -77,6 +84,7 @@ public class Movie {
     public String getDirector() {
         return director;
     }
+
 
     public String toString() {
         return title + " | Genre: " + genre + " | Durasi: " + duration + " menit";

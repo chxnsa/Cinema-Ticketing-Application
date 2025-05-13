@@ -1,6 +1,7 @@
 package reservation;
 
-import users.Customer;
+
+import user.Customer;
 import movie.Schedule;
 
 public class Reservation {

@@ -13,6 +13,7 @@ public class Schedule {
     private String studioName;
     private boolean[] seats;
 
+
     public Schedule(Movie movie, String dateTime, int totalSeats, double price, String studioName) {
         this.movie = movie;
         this.dateTime = dateTime;
@@ -47,6 +48,7 @@ public class Schedule {
         }
 
         return !seats[seatNumber - 1];
+
     }
 
     public boolean isAvailable() {
@@ -115,4 +117,5 @@ public class Schedule {
                 availableSeats,
                 getTotalSeats());
     }
+
 }
