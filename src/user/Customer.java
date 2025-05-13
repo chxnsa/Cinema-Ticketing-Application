@@ -38,27 +38,45 @@ public class Customer extends User {
         }
     }
 
-    public Reservation bookTicket(Movie movie, Schedule schedule, int seatNumber) {
+    public void bookTickets(Movie movie, Schedule schedule, List<Integer> seatNumbers) {
+        List<Reservation> newReservations = new ArrayList<>();
+        
+        for (int seatNumber : seatNumbers) {
+            if (!schedule.isSeatAvailable(seatNumber)) {
+                System.out.println("Maaf, kursi " + seatNumber + " sudah terpesan.");
+                continue;
+            }
 
-        if (!schedule.isAvailable()) {
-            System.out.println("Maaf, kursi sudah penuh untuk jadwal ini.");
-            return null;
+            if (schedule.bookSeat(seatNumber)) {
+                Reservation newReservation = new Reservation(this, schedule, seatNumber);
+                newReservations.add(newReservation);
+            } else {
+                System.out.println("Maaf, pemesanan gagal untuk kursi " + seatNumber + ".");
+            }
         }
 
-        if (seatNumber <= 0 || seatNumber > (schedule.getAvailableSeats() + schedule.getBookedSeats())) {
-            System.out.println("Nomor kursi tidak valid.");
-            return null;
-        }
-
-        if (schedule.bookSeat()) {
-            Reservation newReservation = new Reservation(this, schedule, seatNumber);
-            reservations.add(newReservation);
-            return newReservation;
+        if (!newReservations.isEmpty()) {
+            reservations.addAll(newReservations);
+            System.out.println(newReservations.size() + " tiket berhasil dipesan.");
         } else {
-            System.out.println("Maaf, pemesanan gagal. Kursi tidak tersedia.");
-            return null;
+            System.out.println("Tidak ada tiket yang berhasil dipesan.");
         }
     }
+
+    public void viewReservations() {
+        if (reservations.isEmpty()) {
+            System.out.println("Belum ada reservasi.");
+            return;
+        }
+
+        System.out.println("\n===== RIWAYAT RESERVASI =====");
+        for (int i = 0; i < reservations.size(); i++) {
+            System.out.println("Reservasi #" + (i + 1));
+            reservations.get(i).printInfo();
+            System.out.println();
+        }
+    }
+
     @Override
     public void printInfo() {
         System.out.println("=== INFORMASI USER ===");
