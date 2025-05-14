@@ -13,7 +13,6 @@ public class Schedule {
     private String studioName;
     private boolean[] seats;
 
-
     public Schedule(Movie movie, String dateTime, int totalSeats, double price, String studioName) {
         this.movie = movie;
         this.dateTime = dateTime;
@@ -76,6 +75,10 @@ public class Schedule {
         } catch (ParseException e) {
             return false;
         }
+    }
+
+    public String getTitle() {
+        return movie.getTitle();
     }
 
     public int getTotalSeats() {
