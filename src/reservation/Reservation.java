@@ -1,6 +1,5 @@
 package reservation;
 
-
 import user.Customer;
 import movie.Schedule;
 
@@ -30,5 +29,8 @@ public class Reservation {
         System.out.println("Terima kasih & selamat menonton!");
     }
 
-}
+    public Customer getCustomer() {
+        return customer;
+    }
 
+}
