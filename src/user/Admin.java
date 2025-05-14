@@ -1,4 +1,3 @@
-
 package user;
 
 import java.util.List;
@@ -13,7 +12,6 @@ public class Admin extends User {
     }
 
     public boolean addMovie(Movie movie, List<Movie> movieList) {
-
         for (Movie existingMovie : movieList) {
             if (existingMovie.getTitle().equalsIgnoreCase(movie.getTitle())) {
                 System.out.println("Film dengan judul yang sama sudah ada!");
@@ -23,18 +21,6 @@ public class Admin extends User {
 
         movieList.add(movie);
         System.out.println("Film " + movie.getTitle() + " berhasil ditambahkan");
-        return true;
-    }
-
-    public boolean updateSchedule(Movie movie, Schedule schedule) {
-
-        if (!Schedule.isValidDateTime(schedule.getDateTime())) {
-            System.out.println("Format tanggal dan waktu tidak valid!");
-            return false;
-        }
-
-        movie.addSchedule(schedule);
-        System.out.println("Jadwal untuk film " + movie.getTitle() + " berhasil diupdate");
         return true;
     }
 
@@ -64,14 +50,15 @@ public class Admin extends User {
     }
 
     public boolean deleteSchedule(String movieTitle, String scheduleDateTime, List<Movie> movieList) {
-    for (Movie movie : movieList) {
-        if (movie.getTitle().equalsIgnoreCase(movieTitle)) {
-            List<Schedule> schedules = movie.getSchedules();
-            for (int i = 0; i < schedules.size(); i++) {
-                if (schedules.get(i).getDateTime().equals(scheduleDateTime)) {
-                    schedules.remove(i);
-                    System.out.println("Jadwal pada " + scheduleDateTime + " untuk film " + movieTitle + " berhasil dihapus");
-                    return true;
+        for (Movie movie : movieList) {
+            if (movie.getTitle().equalsIgnoreCase(movieTitle)) {
+                List<Schedule> schedules = movie.getSchedules();
+                for (int i = 0; i < schedules.size(); i++) {
+                    if (schedules.get(i).getDateTime().equals(scheduleDateTime)) {
+                        schedules.remove(i);
+                        System.out.println(
+                                "Jadwal pada " + scheduleDateTime + " untuk film " + movieTitle + " berhasil dihapus");
+                        return true;
                     }
                 }
             }
@@ -79,7 +66,6 @@ public class Admin extends User {
         System.out.println("Jadwal untuk film " + movieTitle + " tidak ditemukan.");
         return false;
     }
-
 
     @Override
     public void printInfo() {
