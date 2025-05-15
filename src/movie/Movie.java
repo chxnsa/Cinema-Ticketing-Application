@@ -30,7 +30,6 @@ public class Movie {
     }
 
     public void displayDetails() {
-
         System.out.println("================== " + title.toUpperCase() + " =================");
 
         System.out.println("Judul: " + title);
@@ -50,7 +49,6 @@ public class Movie {
 
         System.out.println("===========================================================");
         System.out.println("");
-
     }
 
     public static boolean isValidTitle(String title) {
@@ -77,8 +75,11 @@ public class Movie {
         return director;
     }
 
+    public String getGenre() {
+        return director;
+    }
+
     public String toString() {
         return title + " | Genre: " + genre + " | Durasi: " + duration + " menit";
     }
-
 }

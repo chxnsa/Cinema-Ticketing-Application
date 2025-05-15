@@ -33,4 +33,16 @@ public class Reservation {
         return customer;
     }
 
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
 }
