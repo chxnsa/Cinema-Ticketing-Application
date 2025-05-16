@@ -115,8 +115,6 @@ Pilih opsi untuk register
 ## Pengujian
 Untuk menjalankan aplikasi, buka dan jalankan file MainGUI.java di IDE yang digunakan (misalnya IntelliJ IDEA atau Eclipse).
 
-## Lisensi
-Proyek ini dilisensikan di bawah MIT License
 
 ## Kontak
 Ketua
