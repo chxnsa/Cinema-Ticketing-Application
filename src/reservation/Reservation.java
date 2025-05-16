@@ -29,4 +29,20 @@ public class Reservation {
         System.out.println("Terima kasih & selamat menonton!");
     }
 
+    public Customer getCustomer() {
+        return customer;
+    }
+
+    public Schedule getSchedule() {
+        return schedule;
+    }
+
+    public int getSeatNumber() {
+        return seatNumber;
+    }
+
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+
 }

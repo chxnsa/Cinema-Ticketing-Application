@@ -9,14 +9,20 @@ public class Movie {
     private int duration;
     private String description;
     private String director;
+    private String imagePath;
     private List<Schedule> schedules;
 
     public Movie(String title, String genre, int duration, String description, String director) {
+        this(title, genre, duration, description, director, "");
+    }
+
+    public Movie(String title, String genre, int duration, String description, String director, String imagePath) {
         this.title = title;
         this.genre = genre;
         this.duration = duration;
         this.description = description;
         this.director = director;
+        this.imagePath = imagePath;
         this.schedules = new ArrayList<>();
     }
 
@@ -26,10 +32,12 @@ public class Movie {
 
     public void addSchedule(Schedule schedule) {
         schedules.add(schedule);
+        System.out.println("Jadwal untuk film " + schedule.getTitle() + " berhasil ditambahkan");
     }
 
     public void displayDetails() {
         System.out.println("================== " + title.toUpperCase() + " =================");
+
         System.out.println("Judul: " + title);
         System.out.println("Genre: " + genre);
         System.out.println("Durasi: " + duration + " menit");
@@ -47,14 +55,6 @@ public class Movie {
 
         System.out.println("===========================================================");
         System.out.println("");
-    }
-
-    public boolean removeSchedule(int index) {
-        if (index >= 0 && index < schedules.size()) {
-            schedules.remove(index);
-            return true;
-        }
-        return false;
     }
 
     public static boolean isValidTitle(String title) {
@@ -81,4 +81,19 @@ public class Movie {
         return director;
     }
 
+    public String getGenre() {
+        return genre;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String toString() {
+        return title + " | Genre: " + genre + " | Durasi: " + duration + " menit";
+    }
 }

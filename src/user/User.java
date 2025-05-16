@@ -20,14 +20,6 @@ public abstract class User {
 
     public abstract void printInfo();
 
-    public static boolean isValidPassword(String password) {
-        return password != null && password.length() >= 6;
-    }
-
-    public static boolean isValidUsername(String username) {
-        return username != null && username.length() >= 3 && !username.contains(" ");
-    }
-
     public String getUsername() {
         return username;
     }

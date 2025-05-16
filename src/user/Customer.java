@@ -7,45 +7,64 @@ import movie.Schedule;
 import reservation.Reservation;
 
 public class Customer extends User {
-    private List<Reservation> reservations;
 
     public Customer(String username, String password) {
         super(username, password);
-        this.reservations = new ArrayList<>();
     }
 
-    public Reservation bookTicket(Movie movie, Schedule schedule, int seatNumber) {
+    public void bookTickets(Movie movie, Schedule schedule, List<Integer> seatNumbers, List<Reservation> reservations) {
+        List<Reservation> newReservations = new ArrayList<>();
 
         if (!schedule.isAvailable()) {
             System.out.println("Maaf, kursi sudah penuh untuk jadwal ini.");
-            return null;
+            return;
         }
 
-        if (seatNumber <= 0 || seatNumber > (schedule.getAvailableSeats() + schedule.getBookedSeats())) {
-            System.out.println("Nomor kursi tidak valid.");
-            return null;
+        for (int seatNumber : seatNumbers) {
+            if (seatNumber <= 0 || seatNumber > (schedule.getAvailableSeats() + schedule.getBookedSeats())) {
+                System.out.println("Nomor kursi " + seatNumber + " tidak valid.");
+                continue;
+            }
+
+            if (!schedule.isSeatAvailable(seatNumber)) {
+                System.out.println("Maaf, kursi " + seatNumber + " sudah terpesan.");
+                continue;
+            }
+
+            if (schedule.bookSeat(seatNumber)) {
+                Reservation newReservation = new Reservation(this, schedule, seatNumber);
+                newReservations.add(newReservation);
+            } else {
+                System.out.println("Maaf, pemesanan gagal untuk kursi " + seatNumber + ".");
+            }
         }
 
-        if (schedule.bookSeat()) {
-            Reservation newReservation = new Reservation(this, schedule, seatNumber);
-            reservations.add(newReservation);
-            return newReservation;
+        if (!newReservations.isEmpty()) {
+            reservations.addAll(newReservations);
+            System.out.println(newReservations.size() + " tiket berhasil dipesan.");
         } else {
-            System.out.println("Maaf, pemesanan gagal. Kursi tidak tersedia.");
-            return null;
+            System.out.println("Tidak ada tiket yang berhasil dipesan.");
         }
     }
 
-    public void viewReservations() {
-        if (reservations.isEmpty()) {
+    public void viewReservations(List<Reservation> allReservations) {
+        List<Reservation> userReservations = new ArrayList<>();
+
+        for (Reservation reservation : allReservations) {
+            if (reservation.getCustomer().getUsername().equals(this.getUsername())) {
+                userReservations.add(reservation);
+            }
+        }
+
+        if (userReservations.isEmpty()) {
             System.out.println("Belum ada reservasi.");
             return;
         }
 
         System.out.println("\n===== RIWAYAT RESERVASI =====");
-        for (int i = 0; i < reservations.size(); i++) {
+        for (int i = 0; i < userReservations.size(); i++) {
             System.out.println("Reservasi #" + (i + 1));
-            reservations.get(i).printInfo();
+            userReservations.get(i).printInfo();
             System.out.println();
         }
     }
@@ -55,7 +74,6 @@ public class Customer extends User {
         System.out.println("=== INFORMASI USER ===");
         System.out.println("Username: " + username);
         System.out.println("Role: Customer");
-        System.out.println("Jumlah Reservasi: " + reservations.size());
-    }
 
+    }
 }

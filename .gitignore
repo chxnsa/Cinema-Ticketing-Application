@@ -1,0 +1,22 @@
+# Ignore compiled class files
+*.class
+
+# Ignore VS Code workspace settings
+.vscode/
+
+# Ignore common output folders (jika kamu pakai ini)
+bin/
+out/
+
+# Ignore OS-specific junk files
+.DS_Store
+Thumbs.db
+
+# Ignore backup/temp files
+*.log
+*~
+*.bak
+
+# Ignore generated metadata (optional)
+*.jar
+*.war
