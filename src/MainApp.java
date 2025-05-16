@@ -1,4 +1,5 @@
 import java.util.Scanner;
+
 import user.User;
 import user.Customer;
 import user.Admin;
@@ -33,9 +34,16 @@ public class MainApp {
 
             String choice = scanner.nextLine().trim();
 
+            if (choice.isEmpty()) {
+                System.out.println("Input tidak boleh kosong.");
+                continue;
+            }
+
+
             switch (choice) {
                 case "1":
                     registerUser();
+
 
                     break;
                 case "2":
@@ -45,6 +53,7 @@ public class MainApp {
                     } else {
                         System.out.println("Login gagal. Silakan coba lagi.");
                     }
+
                     break;
                 case "3":
                     System.out.println("Terima kasih telah menggunakan sistem. Sampai jumpa!");
@@ -56,11 +65,13 @@ public class MainApp {
     }
 
     private static void showMainMenu() {
+
         if (currentUser instanceof Admin) {
             showAdminMenu();
         } else {
             showCustomerMenu();
         }
+
     }
 
     private static void showCustomerMenu() {
@@ -74,6 +85,12 @@ public class MainApp {
             System.out.print("Pilih (1-4): ");
 
             String choice = scanner.nextLine().trim();
+
+            if (choice.isEmpty()) {
+                System.out.println("Input tidak boleh kosong.");
+                continue;
+            }
+
 
             switch (choice) {
                 case "1":
@@ -132,47 +149,72 @@ public class MainApp {
     private static void registerUser() {
         System.out.println("\n--- REGISTRASI PELANGGAN BARU ---");
 
-        String user;
+        String user, pass;
         while (true) {
             System.out.print("Username: ");
             user = scanner.nextLine().trim();
-
-            boolean isUsernameTaken = false;
+            if (user.isEmpty()) {
+                System.out.println("Username tidak boleh kosong.");
+                continue;
+            }
+            if (user.length() < 7) {
+                System.out.println("Username minimal 7 karakter.");
+                continue;
+            }
+            boolean exists = false;
             for (User u : users) {
                 if (u.getUsername().equals(user)) {
-                    isUsernameTaken = true;
+                    System.out.println("Username sudah terdaftar!");
+                    exists = true;
                     break;
                 }
             }
-
-            if (isUsernameTaken) {
-                System.out.println("Username sudah terdaftar! Silakan masukkan username lain.");
-            } else {
+            if (!exists)
                 break;
+        }
+        while (true) {
+            System.out.print("Password: ");
+            pass = scanner.nextLine().trim();
+            if (pass.isEmpty()) {
+                System.out.println("Password tidak boleh kosong.");
+                continue;
             }
+            int letters = 0, digits = 0;
+            for (char c : pass.toCharArray()) {
+                if (Character.isLetter(c))
+                    letters++;
+                else if (Character.isDigit(c))
+                    digits++;
+            }
+            if (letters < 5 || digits < 3) {
+                System.out.println("Password minimal 5 huruf dan 3 angka!");
+                continue;
+            }
+            break;
         }
+        users.add(new Customer(user, pass));
+        System.out.println("Registrasi berhasil. Silahkan login.");
 
-        System.out.print("Password: ");
-        String pass = scanner.nextLine().trim();
-
-        if (user.isEmpty() || pass.isEmpty()) {
-            System.out.println("Username dan password tidak boleh kosong.");
-            return;
-        }
-
-        Customer cust = new Customer(user, pass);
-        users.add(cust);
-        System.out.println("Registrasi berhasil. Silakan login.");
     }
 
     private static void loginUser() {
         System.out.println("\n--- LOGIN PELANGGAN/ADMIN ---");
-        System.out.print("Username: ");
 
-        String user = scanner.nextLine().trim();
-        System.out.print("Password: ");
-
-        String pass = scanner.nextLine().trim();
+        String user, pass;
+        while (true) {
+            System.out.print("Username: ");
+            user = scanner.nextLine().trim();
+            if (!user.isEmpty())
+                break;
+            System.out.println("Username tidak boleh kosong.");
+        }
+        while (true) {
+            System.out.print("Password: ");
+            pass = scanner.nextLine().trim();
+            if (!pass.isEmpty())
+                break;
+            System.out.println("Password tidak boleh kosong.");
+        }
 
         for (User u : users) {
             if (u.login(user, pass)) {
@@ -186,28 +228,54 @@ public class MainApp {
     }
 
     private static void addMovieFlow(Admin admin) {
-        try {
+
+        String title, genre, description, director;
+        int duration;
+        while (true) {
             System.out.print("Judul Film: ");
-            String title = scanner.nextLine().trim();
-
+            title = scanner.nextLine().trim();
+            if (title.isEmpty()) {
+                System.out.println("Judul film tidak boleh kosong.");
+                continue;
+            }
             System.out.print("Genre Film: ");
-            String genre = scanner.nextLine().trim();
-
-            System.out.print("Durasi (menit): ");
-            int duration = Integer.parseInt(scanner.nextLine().trim());
-
+            genre = scanner.nextLine().trim();
+            if (genre.isEmpty()) {
+                System.out.println("Genre film tidak boleh kosong.");
+                continue;
+            }
+            while (true) {
+                System.out.print("Durasi (menit): ");
+                String di = scanner.nextLine().trim();
+                if (di.isEmpty()) {
+                    System.out.println("Durasi tidak boleh kosong.");
+                    continue;
+                }
+                try {
+                    duration = Integer.parseInt(di);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Durasi harus berupa angka.");
+                }
+            }
             System.out.print("Deskripsi: ");
-            String description = scanner.nextLine().trim();
-
+            description = scanner.nextLine().trim();
+            if (description.isEmpty()) {
+                System.out.println("Deskripsi tidak boleh kosong.");
+                continue;
+            }
             System.out.print("Sutradara: ");
-            String director = scanner.nextLine().trim();
-
-            Movie movie = new Movie(title, genre, duration, description, director);
-
-            admin.addMovie(movie, movies);
-        } catch (NumberFormatException e) {
-            System.out.println("Input durasi tidak valid.");
+            director = scanner.nextLine().trim();
+            if (director.isEmpty()) {
+                System.out.println("Sutradara tidak boleh kosong.");
+                continue;
+            }
+            break;
         }
+        Movie movie = new Movie(title, genre, duration, description, director);
+        admin.addMovie(movie, movies);
+        System.out.println("Film berhasil ditambahkan.");
+
     }
 
     private static void addScheduleFlow(Admin admin) {
@@ -219,39 +287,80 @@ public class MainApp {
         for (int i = 0; i < movies.size(); i++) {
             System.out.printf("%d. %s\n", i + 1, movies.get(i).getTitle());
         }
-        try {
-            int idx = Integer.parseInt(scanner.nextLine().trim()) - 1;
-            Movie selMovie = movies.get(idx);
 
-            String dt;
+        int idx;
+        while (true) {
+            System.out.print("Pilih nomor film: ");
+            String fi = scanner.nextLine().trim();
+            if (fi.isEmpty()) {
+                System.out.println("Input tidak boleh kosong.");
+                continue;
+            }
+            try {
+                idx = Integer.parseInt(fi) - 1;
+                if (idx < 0 || idx >= movies.size()) {
+                    System.out.println("Pilihan film tidak valid.");
+                    continue;
+                }
+                break;
+            } catch (NumberFormatException e) {
+                System.out.println("Masukkan angka valid.");
+            }
+        }
+        Movie selMovie = movies.get(idx);
+
+        String dt, studio;
+        int seats;
+        double price;
+        while (true) {
+            System.out.print("Tanggal & Waktu (yyyy-MM-dd HH:mm): ");
+            dt = scanner.nextLine().trim();
+            if (dt.isEmpty()) {
+                System.out.println("Tanggal & Waktu tidak boleh kosong.");
+                continue;
+            }
             while (true) {
-                System.out.print("Tanggal & Waktu (yyyy-MM-dd HH:mm): ");
-                dt = scanner.nextLine().trim();
-
-                if (!Schedule.isValidDateTime(dt)) {
-                    System.out.println("Format tanggal tidak valid. Harap gunakan format yyyy-MM-dd HH:mm.");
-                } else {
+                System.out.print("Jumlah Kursi Tersedia: ");
+                String si = scanner.nextLine().trim();
+                if (si.isEmpty()) {
+                    System.out.println("Jumlah kursi tidak boleh kosong.");
+                    continue;
+                }
+                try {
+                    seats = Integer.parseInt(si);
                     break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Angka tidak valid.");
                 }
             }
-
-            System.out.print("Jumlah Kursi Tersedia: ");
-            int seats = Integer.parseInt(scanner.nextLine().trim());
-
-            System.out.print("Harga per Tiket: ");
-            double price = Double.parseDouble(scanner.nextLine().trim());
-
+            while (true) {
+                System.out.print("Harga per Tiket: ");
+                String pi = scanner.nextLine().trim();
+                if (pi.isEmpty()) {
+                    System.out.println("Harga tiket tidak boleh kosong.");
+                    continue;
+                }
+                try {
+                    price = Double.parseDouble(pi);
+                    break;
+                } catch (NumberFormatException e) {
+                    System.out.println("Angka tidak valid.");
+                }
+            }
             System.out.print("Nama Studio: ");
-            String studio = scanner.nextLine().trim();
-
-            Schedule schedule = new Schedule(selMovie, dt, seats, price, studio);
-
-            selMovie.addSchedule(schedule);
-            admin.updateSchedule(selMovie, schedule);
-            System.out.println("Jadwal berhasil ditambahkan.");
-        } catch (Exception e) {
-            System.out.println("Input atau pilihan tidak valid.");
+            studio = scanner.nextLine().trim();
+            if (studio.isEmpty()) {
+                System.out.println("Studio tidak boleh kosong.");
+                continue;
+            }
+            break;
         }
+
+        Schedule schedule = new Schedule(selMovie, dt, seats, price, studio);
+        selMovie.addSchedule(schedule);
+        admin.updateSchedule(selMovie, schedule);
+        System.out.println("Jadwal berhasil ditambahkan.");
+
     }
 
     private static void TicketReservation(Customer cust) {
@@ -263,75 +372,96 @@ public class MainApp {
         System.out.println("\n===== PESAN TIKET =====");
         cust.viewMovies(movies);
 
-        try {
-            System.out.print("Pilih nomor film: ");
-            int filmIndex = Integer.parseInt(scanner.nextLine()) - 1;
-            if (filmIndex < 0 || filmIndex >= movies.size()) {
-                System.out.println("Pilihan film tidak valid.");
-                return;
+        int filmIndex;
+        Schedule selectedSchedule;
+        int seatNumber;
+
+        while (true) {
+            try {
+                System.out.print("Pilih nomor film: ");
+                String ifi = scanner.nextLine().trim();
+                if (ifi.isEmpty()) {
+                    System.out.println("Input tidak boleh kosong.");
+                    continue;
+                }
+                filmIndex = Integer.parseInt(ifi) - 1;
+                if (filmIndex < 0 || filmIndex >= movies.size()) {
+                    System.out.println("Pilihan film tidak valid.");
+                    continue;
+                }
+
+                Movie selectedMovie = movies.get(filmIndex);
+                List<Schedule> schedules = selectedMovie.getSchedules();
+                if (schedules.isEmpty()) {
+                    System.out.println("Film ini belum memiliki jadwal tayang.");
+                    return;
+                }
+
+                int scheduleIndex;
+                while (true) {
+                    System.out.println("\n--- PILIH JADWAL ---");
+                    for (int i = 0; i < schedules.size(); i++) {
+                        System.out.printf("%d. %s\n", i + 1, schedules.get(i));
+                    }
+                    System.out.print("Pilih nomor jadwal: ");
+                    String ijs = scanner.nextLine().trim();
+                    if (ijs.isEmpty()) {
+                        System.out.println("Input tidak boleh kosong.");
+                        continue;
+                    }
+                    scheduleIndex = Integer.parseInt(ijs) - 1;
+                    if (scheduleIndex < 0 || scheduleIndex >= schedules.size()) {
+                        System.out.println("Pilihan jadwal tidak valid.");
+                        continue;
+                    }
+                    selectedSchedule = schedules.get(scheduleIndex);
+                    break;
+                }
+
+                while (true) {
+                    System.out.print("Masukkan nomor kursi (1 - " + selectedSchedule.getTotalSeats() + "): ");
+                    String si = scanner.nextLine().trim();
+                    if (si.isEmpty()) {
+                        System.out.println("Nomor kursi tidak boleh kosong.");
+                        continue;
+                    }
+                    seatNumber = Integer.parseInt(si);
+                    if (seatNumber < 1 || seatNumber > selectedSchedule.getTotalSeats()) {
+                        System.out.println("Nomor kursi tidak valid.");
+                        continue;
+                    }
+                    break;
+                }
+
+                System.out.println("\n--- KONFIRMASI PESANAN ---");
+                System.out.println("Film   : " + movies.get(filmIndex).getTitle());
+                System.out.println("Jadwal : " + selectedSchedule.getDateTime());
+                System.out.println("Studio : " + selectedSchedule.getStudioName());
+                System.out.println("Kursi  : " + seatNumber);
+                System.out.println("Harga  : Rp " + String.format("%,.0f", selectedSchedule.getPrice()));
+
+                while (true) {
+                    System.out.print("Lanjutkan? (y/n): ");
+                    String c = scanner.nextLine().trim();
+                    if (c.equalsIgnoreCase("y")) {
+                        Reservation r = cust.bookTicket(movies.get(filmIndex), selectedSchedule, seatNumber);
+                        if (r != null) {
+                            reservations.add(r);
+                            System.out.println("Reservasi berhasil!");
+                            r.printInfo();
+                        }
+                        return;
+                    }
+                    if (c.equalsIgnoreCase("n")) {
+                        System.out.println("Reservasi dibatalkan.");
+                        return;
+                    }
+                    System.out.println("Input hanya y atau n.");
+                }
+
+            } catch (NumberFormatException e) {
+                System.out.println("Input tidak valid. Harap masukkan angka.");
             }
-
-            Movie selectedMovie = movies.get(filmIndex);
-            List<Schedule> schedules = selectedMovie.getSchedules();
-
-            if (schedules.isEmpty()) {
-                System.out.println("Film ini belum memiliki jadwal tayang.");
-                return;
-            }
-
-            System.out.println("\n--- PILIH JADWAL ---");
-            for (int i = 0; i < schedules.size(); i++) {
-                System.out.printf("%d. %s\n", i + 1, schedules.get(i));
-            }
-
-            System.out.print("Pilih nomor jadwal: ");
-            int scheduleIndex = Integer.parseInt(scanner.nextLine()) - 1;
-            if (scheduleIndex < 0 || scheduleIndex >= schedules.size()) {
-                System.out.println("Pilihan jadwal tidak valid.");
-                return;
-            }
-
-            Schedule selectedSchedule = schedules.get(scheduleIndex);
-
-            if (selectedSchedule.isPast()) {
-                System.out.println("Jadwal ini sudah lewat. Tidak dapat melakukan reservasi.");
-                return;
-            }
-
-            int maxSeat = selectedSchedule.getTotalSeats();
-            System.out.print("Masukkan nomor kursi (1 - " + maxSeat + "): ");
-            int seatNumber = Integer.parseInt(scanner.nextLine());
-
-            if (seatNumber < 1 || seatNumber > maxSeat) {
-                System.out.println("Nomor kursi tidak valid.");
-                return;
-            }
-
-            System.out.println("\n--- KONFIRMASI PESANAN ---");
-            System.out.println("Film   : " + selectedMovie.getTitle());
-            System.out.println("Jadwal : " + selectedSchedule.getDateTime());
-            System.out.println("Studio : " + selectedSchedule.getStudioName());
-            System.out.println("Kursi  : " + seatNumber);
-            System.out.println("Harga  : Rp " + String.format("%,.0f", selectedSchedule.getPrice()));
-            System.out.print("Lanjutkan? (y/n): ");
-            String confirm = scanner.nextLine().trim();
-
-            if (!confirm.equalsIgnoreCase("y")) {
-                System.out.println("Reservasi dibatalkan.");
-                return;
-            }
-
-            Reservation reservation = cust.bookTicket(selectedMovie, selectedSchedule, seatNumber);
-            if (reservation != null) {
-                reservations.add(reservation);
-                System.out.println("Reservasi berhasil!");
-                reservation.printInfo();
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Input tidak valid. Harap masukkan angka.");
-        } catch (Exception e) {
-            System.out.println("Terjadi kesalahan saat reservasi: " + e.getMessage());
         }
     }
-
 }

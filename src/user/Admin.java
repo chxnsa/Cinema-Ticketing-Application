@@ -1,3 +1,4 @@
+
 package user;
 
 import java.util.List;
@@ -35,7 +36,6 @@ public class Admin extends User {
         movie.addSchedule(schedule);
         System.out.println("Jadwal untuk film " + movie.getTitle() + " berhasil diupdate");
         return true;
-
     }
 
     public void viewAllReservations(List<Reservation> reservations) {
@@ -62,6 +62,24 @@ public class Admin extends User {
         System.out.println("Film " + movieTitle + " tidak ditemukan");
         return false;
     }
+
+    public boolean deleteSchedule(String movieTitle, String scheduleDateTime, List<Movie> movieList) {
+    for (Movie movie : movieList) {
+        if (movie.getTitle().equalsIgnoreCase(movieTitle)) {
+            List<Schedule> schedules = movie.getSchedules();
+            for (int i = 0; i < schedules.size(); i++) {
+                if (schedules.get(i).getDateTime().equals(scheduleDateTime)) {
+                    schedules.remove(i);
+                    System.out.println("Jadwal pada " + scheduleDateTime + " untuk film " + movieTitle + " berhasil dihapus");
+                    return true;
+                    }
+                }
+            }
+        }
+        System.out.println("Jadwal untuk film " + movieTitle + " tidak ditemukan.");
+        return false;
+    }
+
 
     @Override
     public void printInfo() {

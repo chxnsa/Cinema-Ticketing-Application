@@ -11,6 +11,8 @@ public class Schedule {
     private int bookedSeats;
     private double price;
     private String studioName;
+    private boolean[] seats;
+
 
     public Schedule(Movie movie, String dateTime, int totalSeats, double price, String studioName) {
         this.movie = movie;
@@ -19,15 +21,34 @@ public class Schedule {
         this.bookedSeats = 0;
         this.price = price;
         this.studioName = studioName;
+        this.seats = new boolean[totalSeats];
     }
 
-    public boolean bookSeat() {
-        if (availableSeats > 0) {
-            availableSeats--;
-            bookedSeats++;
-            return true;
+    public boolean bookSeat(int seatNumber) {
+        if (seatNumber < 1 || seatNumber > seats.length) {
+            System.out.println("Nomor kursi tidak valid.");
+            return false;
         }
-        return false;
+
+        if (seats[seatNumber - 1]) {
+            System.out.println("Maaf, kursi " + seatNumber + " sudah terpesan.");
+            return false;
+        }
+
+        seats[seatNumber - 1] = true;
+        availableSeats--;
+        bookedSeats++;
+        return true;
+    }
+
+    public boolean isSeatAvailable(int seatNumber) {
+        if (seatNumber < 1 || seatNumber > seats.length) {
+            System.out.println("Nomor kursi tidak valid.");
+            return false;
+        }
+
+        return !seats[seatNumber - 1];
+
     }
 
     public boolean isAvailable() {
