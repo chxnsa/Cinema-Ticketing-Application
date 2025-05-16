@@ -9,14 +9,20 @@ public class Movie {
     private int duration;
     private String description;
     private String director;
+    private String imagePath;
     private List<Schedule> schedules;
 
     public Movie(String title, String genre, int duration, String description, String director) {
+        this(title, genre, duration, description, director, "");
+    }
+
+    public Movie(String title, String genre, int duration, String description, String director, String imagePath) {
         this.title = title;
         this.genre = genre;
         this.duration = duration;
         this.description = description;
         this.director = director;
+        this.imagePath = imagePath;
         this.schedules = new ArrayList<>();
     }
 
@@ -76,7 +82,15 @@ public class Movie {
     }
 
     public String getGenre() {
-        return director;
+        return genre;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
     }
 
     public String toString() {

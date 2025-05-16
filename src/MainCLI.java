@@ -7,7 +7,7 @@ import movie.Movie;
 import reservation.Reservation;
 import menu.MainMenu;
 
-public class MainApp {
+public class MainCLI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         List<User> users = new ArrayList<>();
