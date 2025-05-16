@@ -81,8 +81,14 @@ Proyek ini dilisensikan di bawah MIT License
 
 ## Kontak
 ## Kelompok 1
-Email: anggota1@example.com
-Email: anggota2@example.com
-Email: anggota3@example.com
-Email: anggota4@example.com
+Ketua
+Email: andi.khnisa@gmail.com
+
+Anggota : 
+Email: azzahrasyam49@gmail.com
+
+Email: isnadiyahnurfadhilah@gmail.com
+
+Email: aal3it@gmail.com
+
 Email: anggota5@example.com
